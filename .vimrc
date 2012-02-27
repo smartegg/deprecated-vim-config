@@ -1,3 +1,5 @@
+set nocompatible "avoid bugs from older version of vi
+set nu "display the number of lines
 call pathogen#infect()
 call pathogen#helptags()
 se nobackup
@@ -7,6 +9,21 @@ se sts=4
 se modelines=2
 se modeline
 se nocp
+"ref from "http://stevelosh.com/blog/2010/09/coming-home-to-vim/"
+set encoding=utf-8
+set scrolloff=3
+set autoindent
+set showmode
+set showcmd
+set hidden
+set visualbell
+set cursorline
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set laststatus=2
+"set relativenumber
+
 colorscheme evening
 if has("autocmd")
     filetype on
@@ -14,6 +31,20 @@ if has("autocmd")
     filetype plugin on
 endif
 syntax on
+
+
+map <C-h> <C-W>h
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-l> <C-W>l
+
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+set colorcolumn=80
+"set list
+"set listchars=tab:▸\ ,eol:¬
+
 
 "
 " Search path for 'gf' command (e.g. open #include-d files)
@@ -26,6 +57,7 @@ set path+=/usr/include/c++/**
 " If I ever need to generate tags on the fly, I uncomment this:
 " map <C-F11> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 set tags+=/usr/include/tags
+set tags+=./tags
 
 
 " se autoindent
@@ -38,11 +70,21 @@ se term=linux
 "
 " necessary for using libclang
 "
-let g:clang_library_path='/usr/lib/llvm'
+let g:clang_library_path='/usr/lib/llvm-3.0/lib'
 " auto-closes preview window after you select what to auto-complete with
 "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"use "help clang-complete  in section 3" to  config advanced configs
+let g:clang_complete_copen=1
+let g:clang_periodic_quickfix=0
+map <F2>  :call g:ClangUpdateQuickFix()<CR>
 
+"
+"just for convenient
+""
+map <F3> :wall<CR>
+map <F4> :quitall<CR>
+map <F5> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "
 " maps NERDTree to F10
@@ -51,6 +93,13 @@ nmap <silent> <F10> :NERDTreeToggle<CR>
 " tells NERDTree to use ASCII chars
 let g:NERDTreeDirArrows=0
 
+map <F12> :call MakeTag()<CR><CR>
+func! MakeTag()
+   exec ":wall"
+   exec "!ctags -R . --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q"
+   exec "!cscope -Rbq"
+   cs add cscope.out
+endfunc
 
 "
 " Better TAB completion for files (like the shell)
@@ -74,35 +123,8 @@ endif
 "let g:pep8_map='<leader>8'
 
 " ignore 'too long lines'
-let g:flake8_ignore="E501,E225"
+"let g:flake8_ignore="E501,E225"
 
-
-"
-" My attempt at easy navigation amongst windows:
-"   Ctrl-Cursor keys to navigate open windows
-"   Ctrl-F12 to close current window
-"
-if !has("gui_running")
-    " XTerm
-    nmap <silent> [1;5B <C-W>j
-    nmap <silent> [1;5A <C-W>k
-    nmap <silent> [1;5D <C-W>h
-    nmap <silent> [1;5C <C-W>l
-    nmap <silent> [24;5~ :bd!<CR>
-    " Putty
-    nmap <silent> OB <C-W>j
-    nmap <silent> OA <C-W>k
-    nmap <silent> OD <C-W>h
-    nmap <silent> OC <C-W>l
-    nmap <silent> [24~ :bd!<CR>
-else
-    " GVim
-    nnoremap <silent> <C-Down> <C-W>j
-    nnoremap <silent> <C-Up> <C-W>k
-    nnoremap <silent> <C-Left> <C-W>h
-    nnoremap <silent> <C-Right> <C-W>l
-    nnoremap <silent> <C-F12> :bd!<CR>
-endif
 
 
 "
@@ -110,6 +132,9 @@ endif
 "
 se incsearch
 se hlsearch
+set ignorecase
+set smartcase
+set showmatch
 " Ctrl-L clears the highlight from the last search
 nnoremap <C-l> :nohlsearch<CR><C-l>
 
@@ -135,7 +160,7 @@ fun! ReadMan()
 endfun
 " Map the K key to the ReadMan function:
 map K :call ReadMan()<CR>
-
+nnoremap <C-k> :bd!<CR>
 
 "
 " Toggle TagList window with F8
@@ -151,3 +176,13 @@ if has("unix")
     set term=cons25
   endif
 endif
+
+" Taglist
+let Tlist_Show_One_File = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Auto_Update = 1
+let Tlist_Close_On_Select = 1
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_Use_Right_Window = 1
+let Tlist_GainFocus_On_ToggleOpen = 1

@@ -1,14 +1,6 @@
 
-These are my VIM settings, mostly targeting development with C/C++ and Python.
+These are my VIM settings, based on [ttsiodras](https://github.com/ttsiodras/dotvim)
 
-Here is a [video showing what I can do with these](http://www.wupload.com/file/2665561027/Vim.flv) when I code in C++.
-
-Use [MPlayer](http://www.mplayerhq.hu) or [VideoLAN](http://www.videolan.org/) to play it.
-I also tried [uploading it to Youtube](http://www.youtube.com/watch?v=o0BgAp11C9s), but quality is really low, even in HD setting.
-
-I use a small number of plugins, and did some minor customization for keyboard shortcuts.
-The plugins are maintained with pathogen, and are placed under bundle/ via Git submodules 
-(so I always have the latest plugin versions). 
 
 Installation
 -------------
@@ -16,7 +8,7 @@ Installation
 In any new machine/account I need to work on, I clone from the repository:
 
     cd 
-    git clone https://github.com/ttsiodras/dotvim .vim
+    git clone git://github.com/smartegg/dotvim.git .vim
     cd .vim
     git submodule init
     git submodule update
