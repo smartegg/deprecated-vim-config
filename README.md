@@ -12,6 +12,7 @@ In any new machine/account I need to work on, I clone from the repository:
     cd .vim
     git submodule init
     git submodule update
+    git submodule foreach git pull origin master
     cd ..
     ln -s .vim/.vimrc
 
