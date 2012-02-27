@@ -62,3 +62,9 @@ I've mapped:
 Am I insane to use VIM?
 -----------------------
 [No, I am not](http://www.viemu.com/a-why-vi-vim.html)
+
+Problems 
+------------------------
+under ubuntu11.10, the clang plugin doesn't work because lack of libclang.so.
+Please just download llvm-3.0 from
+[llvm](http://llvm.org/releases/3.0/clang+llvm-3.0-i386-linux-Ubuntu-11_10.tar.gz)
