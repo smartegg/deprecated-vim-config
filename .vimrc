@@ -148,7 +148,7 @@ fun! ReadMan()
   " Open a new window:
   :exe ":wincmd n"
   " Read in the manpage for man_word (col -b is for formatting):
-  :exe ":r!man " . s:man_word . " | col -b"
+  :exe ":r!man 2 " . s:man_word . " | col -b"
   " Goto first line...
   :exe ":goto"
   " and delete it:
@@ -158,9 +158,10 @@ fun! ReadMan()
   " lines set to 20
   :resize 20
 endfun
-" Map the K key to the ReadMan function:
+" Map the K key to the ReadMan function: 
+" with X to close it.
 map K :call ReadMan()<CR>
-nnoremap <C-k> :bd!<CR>
+nnoremap X :bd!<CR>
 
 "
 " Toggle TagList window with F8
@@ -186,3 +187,22 @@ let Tlist_Close_On_Select = 1
 let Tlist_Exit_OnlyWindow = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_GainFocus_On_ToggleOpen = 1
+
+"cscope configuration
+if has("cscope")
+	set cscopequickfix=s-,c-,d-,i-,t-,e-
+	set csto=0
+	set cst
+	set nocsverb
+	" add any database in current directory
+	if filereadable("cscope.out")
+	    cs add cscope.out
+	" else add database pointed to by environment
+	elseif $CSCOPE_DB != ""
+	    cs add $CSCOPE_DB
+	endif
+	set csverb
+	map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
+	map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
+endif
+
