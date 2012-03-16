@@ -27,3 +27,6 @@
 	path = bundle/minibuf
 	url = git://github.com/fholgado/minibufexpl.vim.git
 	ignore = untracked
+[submodule "bundle/google_vim"]
+	path = bundle/google_vim
+	url = https://github.com/vim-scripts/google.vim.git
