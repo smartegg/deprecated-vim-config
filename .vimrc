@@ -70,7 +70,13 @@ se term=linux
 "
 " necessary for using libclang
 "
-let g:clang_library_path='/usr/lib/llvm-3.0/lib'
+"let g:clang_library_path='/usr/lib/llvm-3.0/lib'
+"let g:clang_user_option='/usr/include/c++/4.6.1 || exit 0'
+let g:clang_library_path='/home/smartegg/study/build/Release/lib/'
+let g:clang_user_options='-std=c++0x -x c++' 
+"-stdlib=libstdc++'
+
+
 " auto-closes preview window after you select what to auto-complete with
 "autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 "autocmd InsertLeave * if pumvisible() == 0|pclose|endif
