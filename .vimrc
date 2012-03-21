@@ -78,8 +78,8 @@ let g:clang_user_options='-std=c++0x -x c++'
 
 
 " auto-closes preview window after you select what to auto-complete with
-"autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "use "help clang-complete  in section 3" to  config advanced configs
 let g:clang_complete_copen=1
 let g:clang_periodic_quickfix=0
