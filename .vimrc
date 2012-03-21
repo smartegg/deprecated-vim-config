@@ -102,7 +102,7 @@ let g:NERDTreeDirArrows=0
 map <F12> :call MakeTag()<CR><CR>
 func! MakeTag()
    exec ":wall"
-   exec "!ctags -R . --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q"
+   exec "!ctags -R  --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q ."
    exec "!cscope -Rbq"
    cs add cscope.out
 endfunc
