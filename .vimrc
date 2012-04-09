@@ -22,6 +22,8 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
+set backupdir=./.backup,.,/tmp
+set directory=.,./.backup,/tmp
 "set relativenumber
 
 "colorscheme evening
