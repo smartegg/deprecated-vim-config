@@ -24,14 +24,14 @@ set backspace=indent,eol,start
 set laststatus=2
 "set relativenumber
 
-colorscheme evening
+"colorscheme evening
+"colorscheme darkburn
 if has("autocmd")
     filetype on
     filetype indent on
     filetype plugin on
 endif
 syntax on
-
 
 map <C-h> <C-W>h
 map <C-j> <C-W>j
@@ -83,8 +83,11 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "use "help clang-complete  in section 3" to  config advanced configs
 let g:clang_complete_copen=1
 let g:clang_periodic_quickfix=0
+let g:clang_use_library=1
 map <F2>  :call g:ClangUpdateQuickFix()<CR>
 
+let g:clang_snippets = 1
+let g:clang_snippets_engine = 'snipmate'
 "
 "just for convenient
 ""
@@ -141,8 +144,8 @@ se hlsearch
 set ignorecase
 set smartcase
 set showmatch
-" Ctrl-L clears the highlight from the last search
-nnoremap <C-l> :nohlsearch<CR><C-l>
+" Ctrl-c clears the highlight from the last search
+nnoremap <C-c> :nohlsearch<CR><C-c>
 
 
 "
@@ -213,3 +216,5 @@ if has("cscope")
 endif
 
 colo desert
+set t_Co=256
+
