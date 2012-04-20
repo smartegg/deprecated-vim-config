@@ -73,9 +73,9 @@ se term=linux
 " necessary for using libclang
 "
 "let g:clang_library_path='/usr/lib/llvm-3.0/lib'
-"let g:clang_user_option='/usr/include/c++/4.6.1 || exit 0'
-let g:clang_library_path='/home/smartegg/study/build/Release/lib/'
-let g:clang_user_options='-std=c++0x -x c++' 
+let g:clang_user_option='/usr/include/c++/4.6.1/include || exit 0'
+let g:clang_library_path='/usr/local/lib/'
+"let g:clang_user_options='-std=c++0x -x c++' 
 "-stdlib=libstdc++'
 
 
@@ -86,11 +86,20 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:clang_complete_copen=1
 let g:clang_periodic_quickfix=0
 let g:clang_use_library=1
+let g:clang_complete_auto=1
+let g:clang_hl_errors=1
+let g:clang_snippets_engine="clang_complete"
+let g:clang_conceal_snippets=1
+let g:clang_exec="clang"
+let g:clang_auto_user_options="path, .clang_complete"
+let g:clang_snippets=1
+let g:clang_auto_select=1
+let g:clang_sort_algo="priority"
+let g:clang_complete_macros=1
+let g:clang_complete_patterns=0
+"let g:clang_user_options=''
 map <F2>  :call g:ClangUpdateQuickFix()<CR>
 
-let g:clang_snippets = 1
-let g:clang_snippets_engine = 'snipmate'
-"
 "just for convenient
 ""
 map <F3> :wall<CR>

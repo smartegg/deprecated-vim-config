@@ -30,3 +30,6 @@
 [submodule "bundle/google_vim"]
 	path = bundle/google_vim
 	url = https://github.com/vim-scripts/google.vim.git
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = git://github.com/ervandew/supertab.git
