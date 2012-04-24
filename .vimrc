@@ -232,3 +232,17 @@ set t_Co=256
 
 ""super tab configuration
 let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
+
+
+""astyle config
+function CodeFormat()
+    let lineNum = line(".")
+    if &filetype == 'c' || &filetype == 'cpp'
+        exec "%!astyle --options=$HOME/.vim/astyle/.astylerc"
+        echohl WarningMsg | echo "code formatting done" | echohl None
+    else
+        echohl WarningMsg | echo "unsupported file type: ".&filetype | echohl None
+    endif
+    exec lineNum
+endfunc
+map <S-F> <Esc>:call CodeFormat()<CR>
