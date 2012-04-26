@@ -86,7 +86,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 let g:clang_complete_copen=1
 let g:clang_periodic_quickfix=0
 let g:clang_use_library=1
-let g:clang_complete_auto=1
+let g:clang_complete_auto=0
 let g:clang_hl_errors=1
 let g:clang_snippets_engine="clang_complete"
 let g:clang_conceal_snippets=1
@@ -231,7 +231,8 @@ set t_Co=256
 
 
 ""super tab configuration
-let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
+let g:SuperTabDefaultCompletionType = "<c-p>"
+let g:SuperTabRetainCOmpletionType=2   
 
 
 ""astyle config
