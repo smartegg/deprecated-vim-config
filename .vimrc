@@ -208,6 +208,26 @@ let Tlist_Exit_OnlyWindow = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_GainFocus_On_ToggleOpen = 1
 
+" F4: Switch on/off TagList
+"let Tlist_Show_One_File = 1 " Displaying tags for only one file~
+let Tlist_Exist_OnlyWindow = 1 " if you are the last, kill yourself
+let Tlist_Use_Right_Window = 1 " split to the right side of the screen
+let Tlist_Sort_Type = "order" " sort by order or name
+let Tlist_Display_Prototype = 0 " do not show prototypes and not tags in the taglist window.
+let Tlist_Compart_Format = 1 " Remove extra information and blank lines from  the taglist window.
+let Tlist_GainFocus_On_ToggleOpen = 1 " Jump to taglist window on open.
+let Tlist_Display_Tag_Scope = 1 " Show tag scope next to the tag name.
+let Tlist_Close_On_Select = 1 " Close the taglist window when a file or tag  is selected.
+let Tlist_Enable_Fold_Column = 0 " Don't Show the fold indicator column in the taglist window.
+let Tlist_WinWidth = 40
+" let Tlist_Ctags_Cmd = 'ctags --c++-kinds=+p --fields=+iaS --extra=+q --languages=c++'
+"  " very slow, so I disable this
+let Tlist_Process_File_Always = 1 " To use the :TlistShowTag and the :TlistShowPrototype commands without the taglist window and the taglist
+"  menu, you should set this variable to 1. 
+"  :TlistShowPrototype [filename] [linenumber]
+
+
+
 "cscope configuration
 if has("cscope")
 	set cscopequickfix=s-,c-,d-,i-,t-,e-
@@ -234,6 +254,8 @@ set t_Co=256
 let g:SuperTabDefaultCompletionType = "<c-p>"
 let g:SuperTabRetainCOmpletionType=2   
 
+"回车即选中当前项
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
 ""astyle config
 function CodeFormat()
@@ -247,3 +269,21 @@ function CodeFormat()
     exec lineNum
 endfunc
 map <S-F> <Esc>:call CodeFormat()<CR>
+
+
+""below for python config
+autocmd BufRead *.py set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+autocmd BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+autocmd BufRead *.py nmap <F5> :!python %<CR>
+
+
+
+""minibufexpl
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+""
+set ofu=syntaxcomplete#Complete
+autocmd FileType python　set omnifunc=pythoncomplete#Complete
+autocmd FileType python runtime! autoload/pythoncomplete.vim
