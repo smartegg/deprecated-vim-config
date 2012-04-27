@@ -69,16 +69,6 @@ se term=linux
 "map <ESC>OP <F1>
 
 
-"
-" necessary for using libclang
-"
-"let g:clang_library_path='/usr/lib/llvm-3.0/lib'
-"let g:clang_user_option='/usr/include/c++/4.6.1/include || exit 0'
-let g:clang_library_path='/usr/local/lib/'
-"let g:clang_user_options='-std=c++0x -x c++' 
-"-stdlib=libstdc++'
-
-
 " auto-closes preview window after you select what to auto-complete with
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
@@ -91,7 +81,8 @@ let g:clang_hl_errors=1
 let g:clang_snippets_engine="clang_complete"
 let g:clang_conceal_snippets=1
 let g:clang_exec="clang"
-let g:clang_auto_user_options="path, .clang_complete"
+let g:clang_library_path='/usr/local/lib'
+let g:clang_auto_user_options="path, .clang_complete,gcc"  
 let g:clang_snippets=1
 let g:clang_auto_select=1
 let g:clang_sort_algo="priority"
