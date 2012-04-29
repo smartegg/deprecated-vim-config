@@ -1,36 +1,11 @@
 set nocompatible "avoid bugs from older version of vi
 set nu "display the number of lines
-call pathogen#infect()
+let mapleader=","             " change the leader to be a comma vs slash
+filetype off
+call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
-se nobackup
-se directory=~/.vim/swp,.
-se shiftwidth=4
-se sts=4
-se modelines=2
-se modeline
-se nocp
-"ref from "http://stevelosh.com/blog/2010/09/coming-home-to-vim/"
-set scrolloff=3
-set autoindent
-set showmode
-set showcmd
-set hidden
-set visualbell
-set cursorline
-set ttyfast
-set ruler
-set backspace=indent,eol,start
-set laststatus=2
-set backupdir=./.backup,.,/tmp
-set directory=.,./.backup,/tmp
+filetype on
 
-set fileencodings=utf-8,gb2312,gbk,gb18030
-set termencoding=utf-8
-set encoding=prc
-"set relativenumber
-
-"colorscheme evening
-"colorscheme darkburn
 if has("autocmd")
     filetype on
     filetype indent on
@@ -47,29 +22,23 @@ set wrap
 set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=80
-"set list
-"set listchars=tab:▸\ ,eol:¬
 
 
-"
-" Search path for 'gf' command (e.g. open #include-d files)
-"
+
+""" Search path for 'gf' command (e.g. open #include-d files)
 set path+=/usr/include/c++/**
-
 "
 " Tags
 "
 " If I ever need to generate tags on the fly, I uncomment this:
-" map <C-F11> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 set tags+=/usr/include/tags
 set tags+=./tags
 
 
 " se autoindent
-se undofile
-se undodir=~/.vimundo
+"se undofile
+"se undodir=~/.vimundo
 se term=linux
-"map <ESC>OP <F1>
 
 
 " auto-closes preview window after you select what to auto-complete with
@@ -101,10 +70,9 @@ map <F4> :quitall<CR>
 map <F5> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "
-" maps NERDTree to F10
+" NERDTree 
 "
-nmap <silent> <F10> :NERDTreeToggle<CR>
-" tells NERDTree to use ASCII chars
+map <leader>n :NERDTreeToggle<CR>
 let g:NERDTreeDirArrows=0
 
 map <F12> :call MakeTag()<CR><CR>
@@ -129,15 +97,7 @@ if has("wildmenu")
 endif
 
 
-"
-" Python stuff
-"
-" obsolete, replaced by flake8
-" PEP8
-"let g:pep8_map='<leader>8'
 
-" ignore 'too long lines'
-"let g:flake8_ignore="E501,E225"
 
 
 
@@ -277,7 +237,130 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
-""
+
+""for python
 set ofu=syntaxcomplete#Complete
-autocmd FileType python　set omnifunc=pythoncomplete#Complete
 autocmd FileType python runtime! autoload/pythoncomplete.vim
+au FileType python set omnifunc=pythoncomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+
+
+""" Insert completion
+" don't select first item, follow typing in autocomplete
+set completeopt=menuone,longest,preview
+set pumheight=6             " Keep a small completion window
+
+" don't outdent hashes
+" inoremap # #
+
+"""" Reading/Writing
+set noautowrite             " Never write a file unless I request it.
+set noautowriteall          " NEVER.
+set noautoread              " Don't automatically re-read changed files.
+set modeline                " Allow vim options to be embedded in files;
+set modelines=5             " they must be within the first or last 5 lines.
+set ffs=unix,dos,mac        " Try recognizing dos, unix, and mac line endings.
+
+
+"""" Messages, Info, Status
+set ls=2                    " allways show status line
+set vb t_vb=                " Disable all bells.  I hate ringing/flashing.
+set confirm                 " Y-N-C prompt if closing with unsaved changes.
+set showcmd                 " Show incomplete normal mode commands as I type.
+set report=0                " : commands always print changed line count.
+set shortmess+=a            " Use [+]/[RO]/[w] for modified/readonly/written.
+set ruler                   " Show some info, even without statuslines.
+set laststatus=2            " Always show statusline, even if only 1 window.
+set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
+
+
+" displays tabs with :set list & displays when a line runs off-screen
+set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
+set list
+
+""tasklist  :  handles TODO and FIMME
+map <leader>td <Plug>TaskList
+
+""Gundo: view diff's in vim undo history
+map <leader>g :GundoToggle<CR>
+
+""pyflasks : real-time python compile
+let g:pyflakes_use_quickfix = 1
+
+"pep8 : for python jump
+let g:pep8_map='<leader>8'
+
+"rope
+map <leader>j :RopeGotoDefinition<CR>
+map <leader>r :RopeRename<CR>
+"Ack
+nmap <leader>a <Esc>:Ack!
+
+map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
+
+""Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
+
+"run py.test's
+nmap <silent><Leader>tf <Esc>:Pytest file<CR>
+nmap <silent><Leader>tc <Esc>:Pytest class<CR>
+nmap <silent><Leader>tm <Esc>:Pytest method<CR>
+nmap <silent><Leader>tn <Esc>:Pytest next<CR>
+nmap <silent><Leader>tp <Esc>:Pytest previous<CR>
+nmap <silent><Leader>te <Esc>:Pytest error<CR>
+
+
+""" Searching and Patterns
+set ignorecase              " Default to using case insensitive searches,
+set smartcase               " unless uppercase letters are used in the regex.
+set smarttab                " Handle tabs more intelligently 
+set hlsearch                " Highlight searches by default.
+set incsearch               " Incrementally search while typing a /regex
+
+" Select the item in the list with enter
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+
+" PEP8
+let g:pep8_map='<leader>8'
+
+" Add the virtualenv's site-packages to vim path
+py << EOF
+import os.path
+import sys
+import vim
+if 'VIRTUAL_ENV' in os.environ:
+        project_base_dir = os.environ['VIRTUAL_ENV']
+	sys.path.insert(0, project_base_dir)
+	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+	execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+
+" Load up virtualenv's vimrc if it exists
+if filereadable($VIRTUAL_ENV . '/.vimrc')
+    source $VIRTUAL_ENV/.vimrc
+endif
+
+
+""" Moving Around/Editing
+set cursorline              " have a line indicate the cursor location
+set ruler                   " show the cursor position all the time
+set nostartofline           " Avoid moving cursor to BOL when jumping around
+set virtualedit=block       " Let cursor move past the last char in <C-v> mode
+set scrolloff=3             " Keep 3 context lines above and below the cursor
+set backspace=2             " Allow backspacing over autoindent, EOL, and BOL
+set showmatch               " Briefly jump to a paren once it's balanced
+set nowrap                  " don't wrap text
+set linebreak               " don't wrap textin the middle of a word
+set autoindent              " always set autoindenting on
+set smartindent             " use smart indent if there is no indent file
+set tabstop=4               " <tab> inserts 4 spaces 
+set shiftwidth=4            " but an indent level is 2 spaces wide.
+set softtabstop=4           " <BS> over an autoindent deletes both spaces.
+set expandtab               " Use spaces, not tabs, for autoindent/tab key.
+set shiftround              " rounds indent to a multiple of shiftwidth
+set matchpairs+=<:>         " show matching <> (html mainly) as well
+set foldmethod=indent       " allow us to fold on indents
+set foldlevel=99            " don't fold by default
+
