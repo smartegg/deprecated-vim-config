@@ -342,6 +342,9 @@ if filereadable($VIRTUAL_ENV . '/.vimrc')
     source $VIRTUAL_ENV/.vimrc
 endif
 
+"A.vim
+map <leader>a :A <CR>
+
 
 """ Moving Around/Editing
 set cursorline              " have a line indicate the cursor location
