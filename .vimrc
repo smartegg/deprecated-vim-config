@@ -10,7 +10,6 @@ se modelines=2
 se modeline
 se nocp
 "ref from "http://stevelosh.com/blog/2010/09/coming-home-to-vim/"
-set encoding=utf-8
 set scrolloff=3
 set autoindent
 set showmode
@@ -24,6 +23,10 @@ set backspace=indent,eol,start
 set laststatus=2
 set backupdir=./.backup,.,/tmp
 set directory=.,./.backup,/tmp
+
+set fileencodings=utf-8,gb2312,gbk,gb18030
+set termencoding=utf-8
+set encoding=prc
 "set relativenumber
 
 "colorscheme evening
@@ -159,7 +162,7 @@ fun! ReadMan()
   " Open a new window:
   :exe ":wincmd n"
   " Read in the manpage for man_word (col -b is for formatting):
-  :exe ":r!man 2 " . s:man_word . " | col -b"
+  :exe ":r!man  " . s:man_word . " | col -b"
   " Goto first line...
   :exe ":goto"
   " and delete it:
