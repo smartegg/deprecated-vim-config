@@ -1,10 +1,12 @@
 set nocompatible "avoid bugs from older version of vi
 set nu "display the number of lines
 let mapleader=","             " change the leader to be a comma vs slash
+
 filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
-filetype on
+
+
 
 if has("autocmd")
     filetype on
@@ -13,38 +15,33 @@ if has("autocmd")
 endif
 syntax on
 
+
+
+"""make shortcuts to change windows.
 map <C-h> <C-W>h
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-l> <C-W>l
 
-set wrap
 set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=80
 
-
-
 """ Search path for 'gf' command (e.g. open #include-d files)
 set path+=/usr/include/c++/**
-"
-" Tags
-"
-" If I ever need to generate tags on the fly, I uncomment this:
+
+"""Tags
 set tags+=/usr/include/tags
 set tags+=./tags
 
 
-" se autoindent
-"se undofile
-"se undodir=~/.vimundo
-se term=linux
 
 
 " auto-closes preview window after you select what to auto-complete with
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-"use "help clang-complete  in section 3" to  config advanced configs
+
+"clang-config
 let g:clang_complete_copen=1
 let g:clang_periodic_quickfix=0
 let g:clang_use_library=1
@@ -60,23 +57,12 @@ let g:clang_auto_select=1
 let g:clang_sort_algo="priority"
 let g:clang_complete_macros=1
 let g:clang_complete_patterns=0
-"let g:clang_user_options=''
-map <F2>  :call g:ClangUpdateQuickFix()<CR>
 
-"just for convenient
-""
-map <F3> :wall<CR>
-map <F4> :quitall<CR>
-map <F5> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
-"
-" NERDTree 
-"
-map <leader>n :NERDTreeToggle<CR>
+"""NERDTree 
 let g:NERDTreeDirArrows=0
 
-map <F12> :call MakeTag()<CR><CR>
-func! MakeTag()
+func! MakeTagCScope()
    exec ":wall"
    exec "!ctags -R  --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q ."
    exec "!cscope -Rbq"
@@ -97,25 +83,7 @@ if has("wildmenu")
 endif
 
 
-
-
-
-
-"
-" incremental search that highlights results
-"
-se incsearch
-se hlsearch
-set ignorecase
-set smartcase
-set showmatch
-" Ctrl-c clears the highlight from the last search
-nnoremap <C-c> :nohlsearch<CR><C-c>
-
-
-"
-" Smart in-line manpages with 'K' in command mode
-"
+"""Smart in-line manpages 
 fun! ReadMan()
   " Assign current word under cursor to a script variable:
   let s:man_word = expand('<cword>')
@@ -132,25 +100,8 @@ fun! ReadMan()
   " lines set to 20
   :resize 20
 endfun
-" Map the K key to the ReadMan function: 
-" with X to close it.
-map K :call ReadMan()<CR>
-nnoremap X :bd!<CR>
 
-"
-" Toggle TagList window with F8
-"
-nnoremap <silent> <F8> :TlistToggle<CR>
 
-"
-" Fix insert-mode cursor keys in FreeBSD
-"
-if has("unix")
-  let myosuname = system("uname")
-  if myosuname == "FreeBSD"
-    set term=cons25
-  endif
-endif
 
 " Taglist
 let Tlist_Show_One_File = 1
@@ -200,18 +151,21 @@ if has("cscope")
 	map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
 endif
 
+""" color scheme
 colo desert
+set background=dark
 set t_Co=256
+highlight ErrorMsg ctermbg=White ctermbg=Red
+hi Search ctermbg=DarkBlue
 
 
 ""super tab configuration
-let g:SuperTabDefaultCompletionType = "<c-p>"
-let g:SuperTabRetainCOmpletionType=2   
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabRetainCOmpletionType=2
+let g:SuperTabContextDefaultCompletionType="<c-p>"
 
-"回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
-""astyle config
+"""astyle config
 function CodeFormat()
     let lineNum = line(".")
     if &filetype == 'c' || &filetype == 'cpp'
@@ -242,7 +196,6 @@ let g:miniBufExplModSelTarget = 1
 set ofu=syntaxcomplete#Complete
 autocmd FileType python runtime! autoload/pythoncomplete.vim
 au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
 
 
 """ Insert completion
@@ -251,7 +204,7 @@ set completeopt=menuone,longest,preview
 set pumheight=6             " Keep a small completion window
 
 " don't outdent hashes
-" inoremap # #
+inoremap # #
 
 """" Reading/Writing
 set noautowrite             " Never write a file unless I request it.
@@ -278,11 +231,7 @@ set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
 set listchars=tab:>-,eol:$,trail:-,precedes:<,extends:>
 set list
 
-""tasklist  :  handles TODO and FIMME
-map <leader>td <Plug>TaskList
 
-""Gundo: view diff's in vim undo history
-map <leader>g :GundoToggle<CR>
 
 ""pyflasks : real-time python compile
 let g:pyflakes_use_quickfix = 1
@@ -290,16 +239,7 @@ let g:pyflakes_use_quickfix = 1
 "pep8 : for python jump
 let g:pep8_map='<leader>8'
 
-"rope
-map <leader>j :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
-"Ack
-nmap <leader>a <Esc>:Ack!
 
-map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
-
-""Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
 
 "run py.test's
 nmap <silent><Leader>tf <Esc>:Pytest file<CR>
@@ -316,13 +256,12 @@ set smartcase               " unless uppercase letters are used in the regex.
 set smarttab                " Handle tabs more intelligently 
 set hlsearch                " Highlight searches by default.
 set incsearch               " Incrementally search while typing a /regex
+set showmatch
 
 " Select the item in the list with enter
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 
-" PEP8
-let g:pep8_map='<leader>8'
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
@@ -342,8 +281,6 @@ if filereadable($VIRTUAL_ENV . '/.vimrc')
     source $VIRTUAL_ENV/.vimrc
 endif
 
-"A.vim
-map <leader>a :A <CR>
 
 
 """ Moving Around/Editing
@@ -367,3 +304,63 @@ set matchpairs+=<:>         " show matching <> (html mainly) as well
 set foldmethod=indent       " allow us to fold on indents
 set foldlevel=99            " don't fold by default
 
+"se undofile
+"se undodir=~/.vimundo
+se term=linux
+
+
+""""""""""""""""""""""""""""""""""""""""""""
+" below just for convenient 
+"""""""""""""""""""""""""""""""""""""""""""" 
+
+
+" Press Space to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+map <F2>  :call g:ClangUpdateQuickFix()<CR>
+map <leader>2 :call g:ClangUpdateQuickFix()<CR>
+
+" with X to close it.
+nnoremap X :bd!<CR>
+
+"""A.vim
+map <S-a> :A <CR>
+"""Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
+
+""Gundo: view diff's in vim undo history
+map <leader>g :GundoToggle<CR>
+
+""tasklist  :  handles TODO and FIMME management
+map <leader>td <Plug>TaskList
+
+"rope
+map <leader>j :RopeGotoDefinition<CR>
+map <leader>r :RopeRename<CR>
+"Ack
+nmap <leader>a <Esc>:Ack!
+
+map <leader>dt :set makeprg=python\ manage.py\ test\|:call MakeGreen()<CR>
+
+map <leader>k :call ReadMan()<CR>
+
+map <leader>n :NERDTreeToggle<CR>
+
+
+
+map <leader>2 :call g:ClangUpdateQuickFix()<CR> 
+
+map <F3> :wall<CR>
+map <leader>3 :wall<CR>
+
+map <F4> :quitall<CR>
+map <leader>4 :quitall<CR>
+
+map <F5> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+map <leader>5 :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+map <leader>8 :TlistToggle<CR>
+nnoremap <silent> <F8> :TlistToggle<CR>
+
+map <F12> :call MakeTagCScope()<CR><CR>
+map <leader>12 :call MakeTagCScope()<CR><CR>
