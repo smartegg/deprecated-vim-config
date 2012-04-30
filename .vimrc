@@ -58,6 +58,16 @@ let g:clang_sort_algo="priority"
 let g:clang_complete_macros=1
 let g:clang_complete_patterns=0
 
+""" ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
 
 """NERDTree 
 let g:NERDTreeDirArrows=0
@@ -155,8 +165,8 @@ endif
 colo desert
 set background=dark
 set t_Co=256
-highlight ErrorMsg ctermbg=White ctermbg=Red
-hi Search ctermbg=DarkBlue
+hi ErrorMsg ctermbg=darkred ctermfg=white
+hi Search   ctermbg=DarkBlue ctermfg=white
 
 
 ""super tab configuration
@@ -187,6 +197,7 @@ autocmd BufRead *.py nmap <F5> :!python %<CR>
 
 
 ""minibufexpl
+let g:miniBufExplorerMoreThanOne=1
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchBufs = 1
@@ -223,6 +234,7 @@ set showcmd                 " Show incomplete normal mode commands as I type.
 set report=0                " : commands always print changed line count.
 set shortmess+=a            " Use [+]/[RO]/[w] for modified/readonly/written.
 set ruler                   " Show some info, even without statuslines.
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
 set laststatus=2            " Always show statusline, even if only 1 window.
 set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
 
